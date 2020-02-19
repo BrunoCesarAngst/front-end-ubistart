@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import User from '@material-ui/core/Grid';
+import NotesSharpIcon from '@material-ui/icons/NotesSharp';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -11,7 +11,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
-import { Container, User, Content } from './styles';
+import { Container, Mark, User, Content } from './styles';
 
 const options = ['Jonas', 'Bruno', 'André'];
 
@@ -39,6 +39,9 @@ export default function Header() {
 
   return (
     <Container>
+      <Mark to="/">
+        <NotesSharpIcon fontSize="large" style={{ color: '#FFFFFF' }} />
+      </Mark>
       <Content>
         <User>
           <ButtonGroup ref={anchorRef}>
