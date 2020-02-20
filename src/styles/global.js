@@ -17,7 +17,7 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    font: Regular 14px/16px Raleway, sans-serif;
+    // font: Regular 14px/16px Raleway, sans-serif;
   }
 
   #root {

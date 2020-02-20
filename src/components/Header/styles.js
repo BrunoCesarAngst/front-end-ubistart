@@ -10,7 +10,6 @@ export const Container = styled.header`
   display: flex;
   justify-content: space-between;
   top: 0px;
-  // margin-left: 88px;
   height: 60px;
 
   background: #ffffff 0% 0% no-repeat padding-box;
@@ -35,7 +34,7 @@ export const Mark = styled(Link)`
 
 export const Content = styled.div`
   display: flex;
-  margin-right: 20px;
+  margin-right: 155px;
 `;
 
 export const User = styled(Grid)`
