@@ -34,7 +34,7 @@ export const Mark = styled(Link)`
 
 export const Content = styled.div`
   display: flex;
-  margin-right: 155px;
+  margin-right: 140px;
 `;
 
 export const User = styled(Grid)`

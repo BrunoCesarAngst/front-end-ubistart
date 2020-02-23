@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
+import Button from 'react-button-component';
+
 import api from '../../services/api';
 
-import { Container, OutletsTable, SearchOutlets, Pages } from './styles';
+import { Container, Nav, OutletsTable, SearchOutlets, Pages } from './styles';
 
 export default function Outlets() {
   const [bins, setBins] = useState([]);
+
+  // const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     async function loadBins() {
@@ -26,7 +30,10 @@ export default function Outlets() {
 
   return (
     <Container>
-      <div>Praças</div>
+      <Nav>
+        <text>Praças</text>
+        <Button component="/registre">Nova praça</Button>
+      </Nav>
       <OutletsTable>
         <thead>
           <SearchOutlets>

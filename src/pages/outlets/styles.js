@@ -1,25 +1,45 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
-  margin-top: -750px;
+  margin-top: -755px;
   margin-left: 120px;
   text-align: left;
   letter-spacing: 0;
   opacity: 1;
+`;
 
-  > div {
-    color: #000000;
-    font-weight: bold;
+export const Nav = styled.div`
+  // align-content: space-between;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+  color: #000000;
+  font-weight: bold;
+
+  text {
+    letter-spacing: 0;
+  }
+
+  button {
+    display: block;
+    height: 40px;
+    width: 186px;
+    margin-right: 140px;
+    background: #239b5c 0% 0% no-repeat padding-box;
+    border-radius: 4px;
+    text-align: center;
+    font: Bold 14px/16px Raleway;
+    color: #ffffff;
+    cursor: pointer;
   }
 `;
 
 export const OutletsTable = styled.table`
   width: 1200px;
   height: 806px;
-  margin-left: -45px;
-  // margin-right: 113px;
-  margin-top: 35px;
+  margin-top: 15px;
   margin-bottom: 30px;
   padding: 30px;
   background: #ffffff 0% 0% no-repeat padding-box;
