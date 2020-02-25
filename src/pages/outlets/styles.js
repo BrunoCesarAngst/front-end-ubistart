@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 
+import { Link } from 'react-router-dom';
+
+import { darken } from 'polished';
+
 export const Container = styled.div`
-  margin-top: -755px;
+  margin-top: 20px;
   margin-left: 120px;
   text-align: left;
   letter-spacing: 0;
@@ -36,10 +40,31 @@ export const Nav = styled.div`
   }
 `;
 
+export const StyledLink = styled(Link)`
+  display: block;
+  height: 40px;
+  width: 186px;
+  margin-right: 140px;
+  background: #239b5c 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  text-align: center;
+  font: Bold 14px/16px Raleway;
+  color: #ffffff;
+  cursor: pointer;
+
+  text-decoration: none;
+
+  button {
+    &:hover {
+      background: ${darken(0.15, '#239b5c')};
+    }
+  }
+`;
+
 export const OutletsTable = styled.table`
   width: 1200px;
   height: 806px;
-  margin-top: 15px;
+  margin-top: 25px;
   margin-bottom: 30px;
   padding: 30px;
   background: #ffffff 0% 0% no-repeat padding-box;

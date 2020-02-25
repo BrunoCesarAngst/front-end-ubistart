@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import Button from 'react-button-component';
 
 import api from '../../services/api';
 
-import { Container, Nav, OutletsTable, SearchOutlets, Pages } from './styles';
+import {
+  Container,
+  Nav,
+  StyledLink,
+  OutletsTable,
+  SearchOutlets,
+  Pages,
+} from './styles';
 
 export default function Outlets() {
   const [bins, setBins] = useState([]);
@@ -32,7 +41,9 @@ export default function Outlets() {
     <Container>
       <Nav>
         <text>Praças</text>
-        <Button component="/registre">Nova praça</Button>
+        <StyledLink to="/register">
+          <Button>Nova praça</Button>
+        </StyledLink>
       </Nav>
       <OutletsTable>
         <thead>

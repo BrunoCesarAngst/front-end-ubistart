@@ -6,12 +6,24 @@ import { darken } from 'polished';
 
 export const Container = styled.ul`
   display: flex;
-  // margin-top: -60px;
+  margin-top: -60px;
+  position: fixed;
   left: 0px;
   width: 88px;
   height: 768px;
   background: #a9292c 0% 0% no-repeat padding-box;
   opacity: 1;
+
+  .first {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    width: 88px;
+    height: 60px;
+    padding: 8px;
+    list-style: none;
+  }
 
   li {
     display: flex;

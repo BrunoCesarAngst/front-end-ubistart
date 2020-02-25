@@ -1,4 +1,5 @@
 import React from 'react';
+
 import NotesSharpIcon from '@material-ui/icons/NotesSharp';
 import RoomSharpIcon from '@material-ui/icons/RoomSharp';
 import PersonIcon from '@material-ui/icons/Person';
@@ -11,13 +12,13 @@ export default function Sidebar() {
   return (
     <Container>
       <ul>
-        {/* <li>
-          <StyledLink to="/">
+        <li className="first">
+          <StyledLink>
             <NotesSharpIcon fontSize="large" style={{ color: '#FFFFFF' }} />
           </StyledLink>
-        </li> */}
+        </li>
         <li>
-          <StyledLink to="/register">
+          <StyledLink to="/">
             <RoomSharpIcon fontSize="large" style={{ color: '#FFFFFF' }} />
             <text>Praças</text>
           </StyledLink>

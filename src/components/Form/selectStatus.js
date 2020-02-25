@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 import { useField } from '@unform/core';
 
-export default function Input({ name, label, ...rest }) {
+export default function Select({ name, label, ...rest }) {
   const inputRef = useRef(null);
 
   const { fieldName, registerField, defaultValue, error } = useField(name);
@@ -21,7 +21,10 @@ export default function Input({ name, label, ...rest }) {
         <br />
         {label}
         <br />
-        <input ref={inputRef} {...rest} />
+        <select ref={inputRef} {...rest}>
+          <option value="true">Ativo</option>
+          <option value="False">Inativo</option>
+        </select>
         <br />
       </label>
     </>

@@ -39,9 +39,6 @@ export default function Header() {
 
   return (
     <Container>
-      <Mark to="/">
-        <NotesSharpIcon fontSize="large" style={{ color: '#FFFFFF' }} />
-      </Mark>
       <Content>
         <User>
           <ButtonGroup ref={anchorRef}>

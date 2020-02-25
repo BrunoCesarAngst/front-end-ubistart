@@ -12,6 +12,7 @@
     "@unform/web": "^2.0.0",
     "axios": "^0.19.2",
     "baseui": "^9.56.0",
+    "clsx": "^1.1.0",
     "polished": "^3.4.4",
     "react": "^16.12.0",
     "react-button-component": "^1.0.0",

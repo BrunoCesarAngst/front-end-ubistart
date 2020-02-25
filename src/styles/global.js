@@ -17,14 +17,14 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    // font: Regular 14px/16px Raleway, sans-serif;
+    font: Raleway;
   }
 
   #root {
-    width: 0 auto;
-    height: 2174px;
+    width: auto;
+    // height: 2174px;
     margin: 0 auto;
-    padding: 0 20px 50px;
+    padding: 0 20px 50px 20px;
   }
 
   button {
