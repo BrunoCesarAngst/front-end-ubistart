@@ -23,7 +23,8 @@
     "reactotron-react-js": "^3.3.7",
     "semantic-ui-react": "^0.88.2",
     "styled-components": "^5.0.1",
-    "styletron-react": "^5.2.7"
+    "styletron-react": "^5.2.7",
+    "yup": "^0.28.1"
   },
   "scripts": {
     "start": "react-scripts start",

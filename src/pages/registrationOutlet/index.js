@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
-// import Button from '@material-ui/core/Button';
+import { Scope } from '@unform/core';
+
+import * as Yup from 'yup';
+
+import Button from '@material-ui/core/Button';
 
 // import Radio from '@material-ui/core/Radio';
 
@@ -17,23 +21,88 @@ import {
   ButtonInput,
   Distributor,
   DistributorData,
+  NewDistributor,
 } from './styles';
 
 export default function RegistrationOutlet() {
+  const formRef = useRef(null);
+
   const [showOutlet, setShowOutlet] = useState(true);
 
   const [showDistributor, setShowDistributor] = useState(false);
 
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState();
 
-  function handleSubmit(data) {
-    console.tron.log(data);
-    console.log(data);
+  async function handleSubmit(data, { reset }) {
+    const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
+    const phoneRegex = /(\(?\d{2}\)?\s)?(\d{4,5}-\d{4})/;
+    const cepRegex = /[0-9]{5}-[\d]{3}/;
+
+    try {
+      const schema = Yup.object().shape({
+        cnpj: Yup.string()
+          .matches(cnpjRegex, 'Digite um CNPJ válido')
+          .required('O CNPJ é obrigatório'),
+        companyName: Yup.string().required('A Razão Social é obrigatório'),
+        tradingName: Yup.string().required('O Nome fantasia é obrigatório'),
+        telephone: Yup.string()
+          .matches(phoneRegex, 'Digite um número de telefone válido')
+          .required('O número de telefone é obrigatório'),
+        email: Yup.string()
+          .email('Digite um e-mail válido')
+          .required('O e-mail é obrigatório'),
+        address: Yup.object().shape({
+          cep: Yup.string()
+            .matches(cepRegex, 'Digite um número de CEP válido')
+            .required('O número de CEP é obrigatório'),
+          street: Yup.string()
+            .min(3, 'No mínimo 3 caracteres')
+            .required('O nome da rua é obrigatório'),
+          number: Yup.number()
+            .min(1, 'No mínimo 1 caracteres')
+            // .positive('O número deve ser positivo')
+            .moreThan(-1, 'O número deve ser positivo')
+            .required('O número do edifício é obrigatório'),
+          complement: Yup.string(),
+          neighborhood: Yup.string()
+            .min(3, 'No mínimo 3 caracteres')
+            .required('O nome do bairro é obrigatório'),
+          city: Yup.string()
+            .min(3, 'No mínimo 3 caracteres')
+            .required('O nome da cidade é obrigatório'),
+        }),
+        responsibleName: Yup.string()
+          .min(3, 'No mínimo 3 caracteres')
+          .required('O nome do responsável é obrigatório'),
+        note: Yup.string(),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      console.tron.log(data);
+      console.log(data);
+
+      reset();
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errMassages = {};
+
+        err.inner.forEach(error => {
+          errMassages[error.path] = error.message;
+        });
+
+        formRef.current.setErrors(errMassages);
+      }
+    }
   }
 
   function handleCheckedChange(e) {
-    setIsChecked(prevCheckedValue => !prevCheckedValue);
+    setIsChecked(prevCheckedValue => prevCheckedValue);
   }
+
+  function handleAddNewDistributor() {}
 
   return (
     <Container>
@@ -46,7 +115,7 @@ export default function RegistrationOutlet() {
         </Nav>
         {showOutlet && (
           <CompanyData>
-            <Form onSubmit={handleSubmit}>
+            <Form ref={formRef} onSubmit={handleSubmit}>
               <TheTitles>DADOS DA EMPRESA</TheTitles>
               <div>
                 <Input
@@ -68,7 +137,8 @@ export default function RegistrationOutlet() {
                   style={{ width: '415px' }}
                 />
                 <Input
-                  name="telefone"
+                  type="text"
+                  name="telephone"
                   label="Telefone"
                   style={{ width: '206px' }}
                 />
@@ -81,60 +151,62 @@ export default function RegistrationOutlet() {
               </div>
               <TheTitles>ENDEREÇO</TheTitles>
               <div>
-                <Input
-                  type="text"
-                  label="CEP"
-                  name="cep"
-                  style={{ width: '221px' }}
-                />
-                <Input
-                  type="text"
-                  label="Rua"
-                  name="street"
-                  style={{ width: '415px' }}
-                />
-                <Input
-                  type="number"
-                  label="Nº"
-                  name="number"
-                  style={{ width: '130px' }}
-                />
-                <Input
-                  type="text"
-                  label="Complemento"
-                  name="complement"
-                  style={{ width: '129px' }}
-                />
-                <Input
-                  type="text"
-                  label="Bairro"
-                  name="neighborhood"
-                  style={{ width: '316px' }}
-                />
-                <Input
-                  type="text"
-                  label="Cidade"
-                  name="city"
-                  style={{ width: '480px' }}
-                />
-                <SelectUf
-                  type="text"
-                  label="UF"
-                  name="uf"
-                  style={{ width: '131px' }}
-                />
-                <Input
-                  type="text"
-                  label="Observações"
-                  name="note"
-                  style={{ width: '606px' }}
-                />
-                <SelectStatus
-                  type="text"
-                  label="Status"
-                  name="status"
-                  style={{ width: '161px' }}
-                />
+                <Scope path="address">
+                  <Input
+                    type="text"
+                    label="CEP"
+                    name="cep"
+                    style={{ width: '221px' }}
+                  />
+                  <Input
+                    type="text"
+                    label="Rua"
+                    name="street"
+                    style={{ width: '415px' }}
+                  />
+                  <Input
+                    type="number"
+                    label="Nº"
+                    name="number"
+                    style={{ width: '130px' }}
+                  />
+                  <Input
+                    type="text"
+                    label="Complemento"
+                    name="complement"
+                    style={{ width: '129px' }}
+                  />
+                  <Input
+                    type="text"
+                    label="Bairro"
+                    name="neighborhood"
+                    style={{ width: '316px' }}
+                  />
+                  <Input
+                    type="text"
+                    label="Cidade"
+                    name="city"
+                    style={{ width: '480px' }}
+                  />
+                  <SelectUf
+                    type="text"
+                    label="UF"
+                    name="uf"
+                    style={{ width: '131px' }}
+                  />
+                  <Input
+                    type="text"
+                    label="Observações"
+                    name="note"
+                    style={{ width: '606px' }}
+                  />
+                  <SelectStatus
+                    type="text"
+                    label="Status"
+                    name="status"
+                    style={{ width: '161px' }}
+                  />
+                </Scope>
                 <ButtonInput type="submit">Salvar</ButtonInput>
               </div>
             </Form>
@@ -148,22 +220,41 @@ export default function RegistrationOutlet() {
             type="button"
             onClick={() => setShowDistributor(!showDistributor)}
           >
-            Praça
+            Distribuidor
           </button>
         </Nav>
         {showDistributor && (
           <DistributorData>
-            <Form onSubmit={handleSubmit}>
+            <Form ref={formRef} onSubmit={handleSubmit}>
               <TheTitles>Tipo</TheTitles>
-
               <div>
-                <input
-                  type="radio"
-                  checked={isChecked}
-                  onChange={handleCheckedChange}
-                  id="agreement-checkbox"
-                />
-                <label htmlFor="agreement-checkbox">Pessoa física</label>
+                <Button>
+                  <label htmlFor="agreement-checkbox">
+                    <input
+                      type="radio"
+                      name="person"
+                      value="natural_person"
+                      checked={isChecked}
+                      onChange={handleCheckedChange}
+                      id="natural_person"
+                    />
+                    Pessoa física
+                  </label>
+                </Button>
+                <Button>
+                  <label htmlFor="agreement-checkbox">
+                    <input
+                      type="radio"
+                      name="person"
+                      value="legal_entity"
+                      checked={isChecked}
+                      onChange={handleCheckedChange}
+                      id="legal_entity"
+                    />
+                    Pessoa jurídica
+                  </label>
+                </Button>
+                <div>Excluir distribuidor</div>
               </div>
 
               <TheTitles>DADOS DA EMPRESA</TheTitles>
@@ -187,7 +278,8 @@ export default function RegistrationOutlet() {
                   style={{ width: '415px' }}
                 />
                 <Input
-                  name="telefone"
+                  type="text"
+                  name="telephone"
                   label="Telefone"
                   style={{ width: '206px' }}
                 />
@@ -200,7 +292,7 @@ export default function RegistrationOutlet() {
                 <Input
                   type="text"
                   label="Nome do responsável"
-                  name="status"
+                  name="responsibleName"
                   style={{ width: '415px' }}
                 />
                 <Input
@@ -212,54 +304,61 @@ export default function RegistrationOutlet() {
               </div>
               <TheTitles>ENDEREÇO</TheTitles>
               <div>
-                <Input
-                  type="cep"
-                  label="CEP"
-                  name="cep"
-                  style={{ width: '221px' }}
-                />
-                <Input
-                  type="street"
-                  label="Rua"
-                  name="street"
-                  style={{ width: '415px' }}
-                />
-                <Input
-                  type="number"
-                  label="Nº"
-                  name="number"
-                  style={{ width: '130px' }}
-                />
-                <Input
-                  type="text"
-                  label="Complemento"
-                  name="complement"
-                  style={{ width: '129px' }}
-                />
-                <Input
-                  type="text"
-                  label="Bairro"
-                  name="neighborhood"
-                  style={{ width: '316px' }}
-                />
-                <Input
-                  type="text"
-                  label="Cidade"
-                  name="city"
-                  style={{ width: '480px' }}
-                />
-                <SelectUf
-                  type="text"
-                  label="UF"
-                  name="uf"
-                  style={{ width: '131px' }}
-                />
+                <Scope path="address">
+                  <Input
+                    type="cep"
+                    label="CEP"
+                    name="cep"
+                    style={{ width: '221px' }}
+                  />
+                  <Input
+                    type="street"
+                    label="Rua"
+                    name="street"
+                    style={{ width: '415px' }}
+                  />
+                  <Input
+                    type="number"
+                    label="Nº"
+                    name="number"
+                    style={{ width: '130px' }}
+                  />
+                  <Input
+                    type="text"
+                    label="Complemento"
+                    name="complement"
+                    style={{ width: '129px' }}
+                  />
+                  <Input
+                    type="text"
+                    label="Bairro"
+                    name="neighborhood"
+                    style={{ width: '316px' }}
+                  />
+                  <Input
+                    type="text"
+                    label="Cidade"
+                    name="city"
+                    style={{ width: '480px' }}
+                  />
+                  <SelectUf
+                    type="text"
+                    label="UF"
+                    name="uf"
+                    style={{ width: '131px' }}
+                  />
+                </Scope>
                 <ButtonInput type="submit">Salvar</ButtonInput>
               </div>
             </Form>
           </DistributorData>
         )}
       </Distributor>
+      <NewDistributor>
+        <button type="button" onClick={handleAddNewDistributor}>
+          Adicionar Distribuidor
+        </button>
+      </NewDistributor>
     </Container>
   );
 }

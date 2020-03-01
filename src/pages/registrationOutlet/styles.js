@@ -137,3 +137,12 @@ export const DistributorData = styled.div`
   width: 991px;
   border-radius: 4px;
 `;
+
+export const NewDistributor = styled.div`
+  width: 1200px;
+  // height: auto;
+  padding: 30px;
+  margin-bottom: 50px;
+  background: #ffffff;
+  border-radius: 8px;
+`;
